@@ -1,0 +1,113 @@
+CS437 Term Project txt report:
+Members:
+Kerem Acildi (31132)
+Caglar Uysal (29112)
+
+
+### Name of The Vulnerability: Blind OS Command Injection
+
+Category of The Vulnerability According to OWASP Top 10 2021:
+Injection (A03:2021)
+
+Technical Explanation of The Vulnerability: Blind OS Command Injection occurs when an application allows user-controlled input to be passed directly to an operating system command without proper sanitization or validation. The "blind" aspect means that while the attacker cannot see the output of the command, they can infer its success through behavioral changes in the application (e.g., response delays or side effects).
+
+Exploit of The Vulnerability:
+An attacker could inject additional commands via an input field. For example:
+
+```
+localhost && sleep 5
+```
+
+This would cause a 5-second delay, indicating that the command was successfully executed.
+
+### Name of The Vulnerability: Reflected XSS
+
+Category of The Vulnerability According to OWASP Top 10 2021:
+Cross-Site Scripting (A07:2021)
+
+Technical Explanation of The Vulnerability:
+Reflected XSS occurs when an application includes unvalidated and unsanitized user input directly into its HTML output. This allows attackers to inject malicious scripts, which execute in the context of a victim's browser.
+
+Exploit of The Vulnerability:
+An attacker could inject a script via a URL parameter, such as:
+
+```
+	ert('XSS')</script>
+```
+
+The injected script would execute in the user's browser, potentially stealing sensitive information like session cookies.
+
+---
+
+### Name of The Vulnerability: Unrestricted File Upload
+
+Category of The Vulnerability According to OWASP Top 10 2021:
+Insecure Design (A04:2021)
+
+Technical Explanation of The Vulnerability:
+Unrestricted file upload occurs when an application fails to validate or restrict uploaded files, allowing attackers to upload malicious files such as executable scripts (e.g., `.php` files). These files could be executed on the server, leading to a full compromise.
+
+Exploit of The Vulnerability:
+An attacker could upload a malicious PHP script disguised with a double extension, such as:
+
+```
+malicious.php.txt
+```
+
+If executed, this file could allow remote code execution.
+
+
+### Name of The Vulnerability: SSRF Blacklist based input filter
+
+Category of The Vulnerability According to OWASP Top 10 2021:
+Security Misconfiguration (A05:2021)
+
+Technical Explanation of The Vulnerability:
+Improper handling of external RSS feeds may lead to vulnerabilities such as injection attacks, loading malicious scripts, or exposing sensitive information. Fetching unvalidated feeds can allow attackers to introduce crafted XML payloads.
+
+Exploit of The Vulnerability:
+An attacker could provide a malicious RSS URL that executes unintended actions or exposes server data.
+
+
+### Name of The Vulnerability: CWE-35 Path Traversal
+
+Category of The Vulnerability According to OWASP Top 10 2021:
+Security Misconfiguration (A05:2021)
+
+Technical Explanation of The Vulnerability:
+Path Traversal occurs when an application improperly validates user input used in file paths, allowing attackers to access files outside the intended directory. By using special characters such as `../`, attackers can traverse directories and access restricted files.
+
+Exploit of The Vulnerability:
+An attacker could exploit the vulnerability by submitting a crafted file path, such as:
+
+../../../../etc/passwd
+
+This would allow access to the server's password file if proper validation is not in place.
+
+---
+
+### Name of The Vulnerability: SQL Injection(1) Blind SQL injection
+
+Category of The Vulnerability According to OWASP Top 10 2021: A03:2021 – Injection
+
+Technical Explanation of The Vulnerability: User-supplied sql data is not validated, filtered, or sanitized by the application. 
+Blind Sql injection attacks does not rely on seeing the data. In our case we used blind sql injection to bypass admin credentials and logn as an admin.
+
+Exploit of The Vulnerability:
+An attacker could provide a <admin username>’ # as username and any password.
+
+---
+
+
+### Name of The Vulnerability: SQL Injection(2) Union SQL injection
+
+Category of The Vulnerability According to OWASP Top 10 2021: A03:2021 – Injection
+
+Technical Explanation of The Vulnerability: User-supplied sql data is not validated, filtered, or sanitized by the application. use the UNION keyword to retrieve data from other tables within the database. This is commonly known as a SQL injection UNION attack. The UNION keyword enables you to execute one or more additional SELECT queries and append the results to the original query. In our case we used Union attack to gather information from "dummy_data" sql table which should not be accessible from anywhere in the application.
+
+Exploit of The Vulnerability:
+An attacker could exploit the vulnerability by submitting a crafted sql query, such as:
+' UNION SELECT id, name, email FROM dummy_data#
+This would allow access to the private data tables that server has.
+
+
